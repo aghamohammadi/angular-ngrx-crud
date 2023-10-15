@@ -16,10 +16,10 @@ export class BlogListComponent implements OnInit {
 
   public pageNumber = 1;
   public pageSize = 10;
-  public orderType = 0;
-  public searchTerm = '';
 
   public title!:string;
+  public searchTerm$!: Observable<string>;
+  public sortType$!: Observable<number>;
   public totalCount$!:  Observable<number>;
   public posts$!: Observable<Post[]>;
   public isLoading$!: Observable<boolean>;
@@ -44,6 +44,8 @@ export class BlogListComponent implements OnInit {
     this.error$ = this.store$.select(BlogStoreSelectors.getErrormessage);
     this.isLoading$ = this.store$.select(BlogStoreSelectors.getIsLoading);
     this.totalCount$ = this.store$.select(BlogStoreSelectors.gettotalCount);
+    this.searchTerm$ = this.store$.select(BlogStoreSelectors.getSearchTerm);
+    this.sortType$ = this.store$.select(BlogStoreSelectors.getSortType);
     this.store$.dispatch(BlogActionTypes.getAllPostsRequestAction());
 
   }
@@ -54,16 +56,16 @@ export class BlogListComponent implements OnInit {
     this.pageNumber = page;
     this.store$.dispatch(BlogActionTypes.setPaginationAction({ pageNumber: this.pageNumber, pageSize: this.pageSize }));
   }
-  onChangeOrder(value: any) {
+  onChangeSort(value: any) {
     this.onChangePage(1);
-    this.orderType = +value.target.value;
-    this.store$.dispatch(BlogActionTypes.sortPostAction({ sortType: this.orderType }));
+    const sortType = +value.target.value;
+    this.store$.dispatch(BlogActionTypes.sortPostAction({ sortType }));
 
   }
   onChangeSearch(value: any) {
     this.onChangePage(1);
-    this.searchTerm = value.target.value?.trim();
-    this.store$.dispatch(BlogActionTypes.searchPostAction({ searchTerm: this.searchTerm }));
+    const searchTerm = value.target.value?.trim();
+    this.store$.dispatch(BlogActionTypes.searchPostAction({ searchTerm }));
   }
 
   onDelete(id: number) {

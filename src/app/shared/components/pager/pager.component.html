@@ -1,0 +1,36 @@
+<nav *ngIf="totalCount && totalCount>0" class="d-flex justify-content-between pt-2 mb-5" aria-label="Page navigation">
+  <ul class="pagination">
+    <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+      <button class="page-link" aria-label="Go To Previous Page" [attr.aria-disabled]="currentPage === 1"
+        [disabled]="currentPage === 1" (click)="onChangePage(currentPage-1)">
+        <mat-icon [style.verticalAlign]="'bottom'">keyboard_arrow_left</mat-icon>Prev
+      </button>
+    </li>
+  </ul>
+  <ul class="pagination">
+    <li class="page-item d-sm-none"><span class="page-link page-link-static">{{currentPage}} /
+        {{totalPages}}</span></li>
+    <li class="page-item d-none d-sm-block" *ngFor="let page of pages; index as i"
+      [ngClass]="{'active': page === currentPage}">
+      <a href="javascript:void(0)" class="page-link" *ngIf="page !== -1; else more"
+        [attr.aria-currentPage]="page === currentPage ? 'page' : null" [attr.aria-label]="
+              page === currentPage ? 'currentPage Page, Page ' + page : 'Go to Page ' + page
+            " [class.currentPage]="page === currentPage" tabindex="0" (click)="onChangePage(page)"
+        (keyup.enter)="onChangePage(page)">{{ page
+        }}</a>
+      <ng-template #more>
+        <a class="page-link" class="more"> ... </a>
+      </ng-template>
+    </li>
+
+
+  </ul>
+  <ul class="pagination">
+    <li class="page-item" [ngClass]="{'disabled': currentPage === totalPages}">
+      <button class="page-link" aria-label="Go To Next Page" [attr.aria-disabled]="currentPage === totalPages"
+        [disabled]="currentPage === totalPages" (click)="onChangePage(currentPage+1)">
+        Next<mat-icon [style.verticalAlign]="'bottom'">keyboard_arrow_right</mat-icon>
+      </button>
+    </li>
+  </ul>
+</nav>

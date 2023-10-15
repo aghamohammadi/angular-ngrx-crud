@@ -1,0 +1,21 @@
+
+
+
+.nav-sidenav-container {
+    position: absolute;
+    overflow: visible;
+    z-index: 9999999;
+    top: 64px;
+    bottom: 0;
+
+  .mat-mdc-nav-list{
+    a{
+      min-width: 15rem;
+      text-align: center;
+      display: inline-block;
+      border-bottom: 1px solid #333;
+      padding: 0.5rem;
+    }
+  }
+}
+

@@ -1,0 +1,26 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="title py-3">
+      <h1>{{title}}</h1>
+    </div>
+    <div class="toolbar mb-4 d-sm-flex justify-content-sm-between">
+        <a class="btn btn-success pull-right my-1" routerLink="/blog/create">Create new post</a>
+        <div class="search">
+          <input id="search-text" class="my-1 form-control" (change)="onChangeSearch($event)" value="" placeholder="Search Title" />
+        </div>
+
+        <div class="sort d-flex align-items-center">
+          <label for="orders" class="me-1 text-nowrap">Order : </label>
+          <select id="orders" class="form-select" (change)="onChangeOrder($event)">
+            <option value="1">Id - Asc</option>
+            <option value="2">Title - Asc</option>
+            <option value="3">Title - Desc</option>
+          </select>
+
+        </div>
+    </div>
+    <div class="items">
+      <app-blog-list-items [items]="posts$ | async" (onDelete)="onDelete(+$event)" [isLoading]="isLoading$|async"></app-blog-list-items>
+      <app-pager (changePage)="onChangePage($event)" [currentPage]="pageNumber" [totalCount]="(totalCount$|async) || 0" [pageCount]="pageSize"></app-pager>
+    </div>
+  </div>

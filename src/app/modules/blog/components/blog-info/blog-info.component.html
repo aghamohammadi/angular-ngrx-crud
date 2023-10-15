@@ -1,0 +1,8 @@
+<div *ngIf="item" class="post-view mt-4 mb-2">
+  <h1>{{item.title}}</h1>
+  <div class="p-2">
+    <p>{{item.body}}</p>
+  </div>
+  <a [routerLink]="['/blog']">Back</a>
+
+</div>

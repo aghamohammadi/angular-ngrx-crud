@@ -1,0 +1,56 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="title py-3">
+      <h1>{{title}}</h1>
+    </div>
+    <div *ngIf="!(isLoading$ | async) && submitted" class="message">
+        <p *ngIf="!(error$ | async)" class="text-success">Saved Successfull!</p>
+        <p *ngIf="(error$ | async)" class="text-danger">{{(error$ | async)}}</p>
+    </div>
+    <form [formGroup]="postForm" (ngSubmit)="postForm.valid && onSubmitPost()" method="post">
+      <div class="mb-3">
+        <label class="form-label" for="title">Title<span class="text-danger">*</span></label>
+        <input formControlName="title" class="form-control" type="text" required="" id="title"
+          [ngClass]="{'is-invalid': postForm.get('title')?.invalid  && (postForm.get('title')?.dirty || postForm.get('title')?.touched)}">
+        <div *ngIf="postForm.get('title')?.invalid  && (postForm.get('title')?.dirty || postForm.get('title')?.touched)"
+          class="invalid-feedback">
+          <div *ngIf="postForm.get('title')?.errors?.['required']">
+            Please enter title!.
+          </div>
+          <div *ngIf="postForm.get('title')?.errors?.['maxlength']">
+            name must be at least 70 characters long.
+          </div>
+          <div *ngIf="postForm.get('title')?.errors?.['forbiddenName']">
+            name cannot be Bob.
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="body">Body<span class="text-danger">*</span></label>
+        <textarea formControlName="body" class="form-control" rows="6" required="" id="body"
+          [ngClass]="{'is-invalid': postForm.get('text')?.invalid  && (postForm.get('body')?.dirty || postForm.get('body')?.touched)}"></textarea>
+        <div *ngIf="postForm.get('body')?.invalid  && (postForm.get('body')?.dirty || postForm.get('body')?.touched)"
+          class="invalid-feedback">
+          <div *ngIf="postForm.get('body')?.errors?.['required']">
+            Please write a body!.
+          </div>
+          <div *ngIf="postForm.get('body')?.errors?.['maxlength']">
+            body must be max 300 characters long.
+          </div>
+          <div *ngIf="postForm.get('body')?.errors?.['forbiddenName']">
+            body cannot be Bob.
+          </div>
+        </div>
+
+      </div>
+      <div class="actions">
+        <button [disabled]="!postForm.valid || (isLoading$ | async)" class="btn btn-success fw-normal shadow-none d-inline-block me-2"
+          type="submit">Save
+          <span *ngIf="(isLoading$ | async) && postForm.valid" class="spinner-border spinner-border-sm mx-2"></span></button>
+        <a [routerLink]="['/blog']" class="btn btn-danger fw-normal shadow-none d-inline-block">Back</a>
+      </div>
+
+    </form>
+
+  </div>
+
